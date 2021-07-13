@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info:
+  title:  Webhook example
+  version: 1.0.0
+webhooks:
+  myendpoint/0/1/Items/:
+    POST:                     
+      requestBody:
+        description: Information about a new  item in the company
+        content:
+          application/json:
+            schema:
+            oneof : 
+              - $ref: '#/components/schemas/Item'
+              - $ref: "#/components/schemas/LinkItem"
+        required: true
+      responses:
+        200:
+          description: Return a 200 status to indicate that the data was processed successfully. The response body may contain the extended operation item.
+
+
+
+components:
+  schemas:
+    LinkItem: 
+        type :  string 
+        example : "https://www.mycompany.com/items/5/"
+    Item:
+      type: object
+      properties:
+        id: 
+          type: string
+          description  : dentifier of the item
+        band :
+          type : string 
+          description : band of the item
+          enum : 
+            - 'Rebook'
+            - 'Adidas'
+            - 'Nike'
+        Price : 
+          type: int 
+          description : price of the item
